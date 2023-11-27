@@ -1,16 +1,23 @@
 /**
- * Return a promise that will only resolve when the predicate function resolves to `true`.
- * The predicate function will be repeatedly called until it resolves to `true` which
- * causes the asynchronous execution to proceed. By default, the predicate function
- * is called every 500ms.
+ * Return a promise that will only resolve when the predicate function resolves to `true`
+ * for async predicate or returns `true` for sync version. The predicate function will
+ * be repeatedly called until it resolves to `true` which causes the asynchronous
+ * execution to proceed. By default, the predicate function is called every 500ms.
  *
  * Please note that this function will reject when the predicate
- * function throws an error at most 3 times.
+ * function throws an error/rejects at most 3 times.
  */
-export async function executeUntil(predicate: () => Promise<boolean>, delayMs = 500) {
+export async function executeUntil(predicate: () => Promise<boolean> | boolean, delayMs = 500) {
+  /*
+   * Make async and sync predicates compatible.
+   */
+  const executePredicate = async () => {
+    return await predicate();
+  };
+
   let failureCount = 0;
 
-  return predicate()
+  return executePredicate()
     .catch(() => {
       failureCount++;
       return false;
@@ -21,8 +28,8 @@ export async function executeUntil(predicate: () => Promise<boolean>, delayMs = 
       }
 
       return new Promise<void>((resolve, reject) => {
-        let isChecking = false;
         const maxFailureCount = 3;
+        let isChecking = false;
 
         const interval = setInterval(async () => {
           if (isChecking) {
@@ -32,7 +39,7 @@ export async function executeUntil(predicate: () => Promise<boolean>, delayMs = 
           try {
             isChecking = true;
 
-            if (await predicate()) {
+            if (await executePredicate()) {
               resolve();
               clearInterval(interval);
             }
