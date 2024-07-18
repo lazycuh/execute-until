@@ -1,4 +1,4 @@
-# execute-until [![](https://circleci.com/gh/babybeet/execute-until.svg?style=svg&logo=appveyor)](https://app.circleci.com/pipelines/github/babybeet/execute-until?branch=main)
+# execute-until [![](https://circleci.com/gh/lazycuh/execute-until.svg?style=svg&logo=appveyor)](https://app.circleci.com/pipelines/github/lazycuh/execute-until?branch=main)
 
 A function that returns a promise that will only resolve when the predicate function resolves to `true` for async predicate or returns `true` for sync version. This is useful for cases when you need to perform some long running operation before proceeding.
 
@@ -20,25 +20,25 @@ Please note that this function will reject when the predicate function throws an
 - `npm`
 
   ```
-  npm i -S @babybeet/execute-until
+  npm i -S @lazycuh/execute-until
   ```
 
 - `pnpm`
 
   ```
-  pnpm i -S @babybeet/execute-until
+  pnpm i -S @lazycuh/execute-until
   ```
 
 - `yarn`
 
   ```
-  yarn add @babybeet/execute-until
+  yarn add @lazycuh/execute-until
   ```
 
 ## Example usage
 
 ```ts
-import { executeUntil } from '@babybeet/execute-until';
+import { executeUntil } from '@lazycuh/execute-until';
 
 ...
 

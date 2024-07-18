@@ -1,18 +1,19 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { executeUntil } from './execute-until';
 
 describe('executeUntil()', () => {
-  const predicate = jest.fn();
+  const predicate = vi.fn();
 
   beforeEach(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    jest.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
-    jest.restoreAllMocks();
+    vi.resetAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('Async predicate', () => {
@@ -31,7 +32,7 @@ describe('executeUntil()', () => {
         .mockRejectedValueOnce(false)
         .mockResolvedValueOnce(true);
 
-      jest.advanceTimersByTimeAsync(20_000);
+      void vi.advanceTimersByTimeAsync(20_000);
 
       await executeUntil(predicate);
 
@@ -45,7 +46,7 @@ describe('executeUntil()', () => {
         .mockRejectedValueOnce(new Error('Expected 3'))
         .mockRejectedValueOnce(new Error('Expected 4'));
 
-      jest.advanceTimersByTimeAsync(20_000);
+      void vi.advanceTimersByTimeAsync(20_000);
 
       await expect(executeUntil(predicate)).rejects.toThrow(new Error('Expected 3'));
 
@@ -58,7 +59,7 @@ describe('executeUntil()', () => {
         .mockRejectedValueOnce(new Error('Expected 2'))
         .mockResolvedValueOnce(true);
 
-      jest.advanceTimersByTimeAsync(20_000);
+      void vi.advanceTimersByTimeAsync(20_000);
 
       await executeUntil(predicate);
 
@@ -82,7 +83,7 @@ describe('executeUntil()', () => {
         .mockReturnValueOnce(false)
         .mockResolvedValueOnce(true);
 
-      jest.advanceTimersByTimeAsync(20_000);
+      void vi.advanceTimersByTimeAsync(20_000);
 
       await executeUntil(predicate);
 
@@ -104,7 +105,7 @@ describe('executeUntil()', () => {
           throw new Error('Expected 4');
         });
 
-      jest.advanceTimersByTimeAsync(20_000);
+      void vi.advanceTimersByTimeAsync(20_000);
 
       await expect(executeUntil(predicate)).rejects.toThrow(new Error('Expected 3'));
 
@@ -121,7 +122,7 @@ describe('executeUntil()', () => {
         })
         .mockReturnValue(true);
 
-      jest.advanceTimersByTimeAsync(20_000);
+      void vi.advanceTimersByTimeAsync(20_000);
 
       await executeUntil(predicate);
 

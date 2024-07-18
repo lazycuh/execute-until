@@ -1,5 +1,5 @@
 {
-  "name": "@babybeet/execute-until",
+  "name": "@lazycuh/execute-until",
   "description": "An utility function to execute an asynchronous operation until it resolves to true",
   "version": "1.0.1",
   "author": {
@@ -21,6 +21,6 @@
   "peerDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/babybeet/execute-until"
+    "url": "git+https://github.com/lazycuh/execute-until"
   }
 }

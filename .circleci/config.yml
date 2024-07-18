@@ -64,7 +64,7 @@ jobs:
             pnpm check-code-styles
             pnpm lint
 
-  unit-testing:
+  testing:
     docker:
       - image: cimg/node:18.18.2-browsers
     steps:
@@ -93,7 +93,7 @@ jobs:
           paths:
             - dist
 
-  publish-to-npm-registry:
+  publishing-to-npm-registry:
     docker:
       - image: << pipeline.parameters.node-image >>
     steps:
@@ -116,13 +116,13 @@ workflows:
       - linting:
           requires:
             - installation
-      - unit-testing:
+      - testing:
           requires:
             - installation
       - building:
           requires:
             - installation
-      - publish-to-npm-registry:
+      - publishing-to-npm-registry:
           filters:
             branches:
               only: main
@@ -130,5 +130,5 @@ workflows:
             - npm
           requires:
             - linting
-            - unit-testing
+            - testing
             - building

@@ -20,6 +20,7 @@ export async function executeUntil(predicate: () => Promise<boolean> | boolean, 
   return executePredicate()
     .catch(() => {
       failureCount++;
+
       return false;
     })
     .then(result => {
@@ -31,6 +32,7 @@ export async function executeUntil(predicate: () => Promise<boolean> | boolean, 
         const maxFailureCount = 3;
         let isChecking = false;
 
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         const interval = setInterval(async () => {
           if (isChecking) {
             return;
@@ -53,7 +55,7 @@ export async function executeUntil(predicate: () => Promise<boolean> | boolean, 
             if (failureCount === maxFailureCount) {
               clearInterval(interval);
 
-              reject(error);
+              reject(error instanceof Error ? error : new Error(String(error)));
             }
           }
         }, delayMs);
