@@ -46,6 +46,7 @@ export async function executeUntil(
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         const interval = setInterval(async () => {
           if (Date.now() - startTime >= executionOptions.timeoutMs!) {
+            clearInterval(interval);
             reject(new TimeoutError(executionOptions.timeoutMs!));
           }
 
