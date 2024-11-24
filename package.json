@@ -48,5 +48,6 @@
     "**/*.{json,md}": [
       "prettier -w --cache"
     ]
-  }
+  },
+  "packageManager": "pnpm@9.7.0"
 }
